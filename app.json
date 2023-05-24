@@ -3,6 +3,7 @@
     "name": "gym-app",
     "slug": "gym-app",
     "version": "1.0.0",
+    "scheme": "com.klaudiak.authsessiongoogle",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,9 +19,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.klaudiak.authsessiongoogle"
     },
     "android": {
+      "package": "com.klaudiak.authsessiongoogle",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -28,6 +31,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "daeb9b97-9dd8-494b-a89b-ed619abad933"
+      }
     }
   }
 }
