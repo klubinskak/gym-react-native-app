@@ -2,9 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   userInfo: {
+    id: "",
     BMI: 0,
     BMR: 0,
-    gender: '',
+    gender: "",
     height: 0,
     weight: 0,
     age: 0,
@@ -13,7 +14,7 @@ const initialState = {
 
 export const userInfoSlice = createSlice({
   name: "userInfo",
-  initialState: {value: initialState},
+  initialState: { value: initialState },
   reducers: {
     setInfo: (state, action) => {
       state.userInfo = action.payload;
@@ -21,9 +22,7 @@ export const userInfoSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
-export const {setInfo} = userInfoSlice.actions;
+export const { setInfo } = userInfoSlice.actions;
 
 export default userInfoSlice.reducer;
-export const userInfo = state => state.userInfo.value;
-
+export const userInfo = (state) => state.userInfo.value;

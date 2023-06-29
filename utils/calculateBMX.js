@@ -11,3 +11,20 @@ export const calculateBMX = (data) => {
     }
     data.BMI = Math.round(data.weight / Math.pow(height_convert, 2));
   };
+
+
+  export const checkBMI = (BMI) => {
+    if(BMI > 18.5 && BMI < 25) {
+      setMessage('You have a normal body weight. Good job!');
+      state.status = 'NORMAL'
+      state.color = 'green-500'
+    } if (BMI < 18.5) {
+      setMessage('You have underweight body weight.')
+      state.status = 'UNDERWEIGHT'
+      state.color = 'red-500'
+    } if (BMI> 25) {
+      setMessage('You have overweight body weight.')
+      state.status= 'OVERWEIGHT';
+      state.color = 'orange-500'
+    }
+  }
