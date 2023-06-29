@@ -1,68 +1,59 @@
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import React from "react";
 import tw from "twrnc";
-import { Icon } from "@rneui/themed";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
-
-const Plan = ({calories}) => {
+const Plan = () => {
+  const navigation = useNavigation();
 
   const data = [
     {
       id: 1,
-      background: "black",
-      screen: "Workout",
-      icon: "fitness-center",
-      color:"white",
+      background: "gray-600",
+      screen: "UserWorkoutScreen",
+      icon: "🏋🏼",
+      color: "white",
       type: "material",
       title: "Workout",
       description: "2 Hours",
     },
     {
       id: 2,
-      background: "[#a3b18a]",
-      screen: "Running",
-      icon: "directions-run",
-      color:"white",
+      background: "[#E0FE0E]",
+      screen: "RunningScreen",
+      icon: "🏃🏼",
+      color: "black",
       type: "material",
       title: "Running",
       description: "12 km",
     },
     {
       id: 3,
-      background: "black",
+      background: "gray-600",
       screen: "FoodScreen",
-      icon: "restaurant",
+      icon: "🥗",
       color: "white",
       type: "material",
       title: "Food",
       description: "1800 kcal",
     },
-      {
+    {
       id: 4,
-      background: "[#a3b18a]",
+      background: "[#E0FE0E]",
       screen: "BMR Calculator",
-      icon: "calculate",
-      color: "white",
+      icon: "➕",
+      color: "black",
       type: "material",
-      title: "BMR & BMI Calculator",
-      description: calories + ' kcal',
+      title: "BMR & BMI",
+      description: "Calculator",
     },
   ];
 
-  
-  console.log(calories)
-  const navigation = useNavigation();
   return (
     <View style={tw`p-2`}>
-      <View style={tw`flex-row items-center`}>
-        <Text style={tw`text-xl ml-3 mt-3 font-bold`}>My Plan</Text>
-        <Icon
-          style={tw`mt-3`}
-          name="keyboard-arrow-right"
-          color="black"
-          type="material"
-        />
+      <View style={tw`flex-row items-center text-center`}>
+        <Text style={tw`mt-3 ml-3 text-xl font-bold text-white`}>My Plan </Text>
       </View>
       <View>
         <FlatList
@@ -71,17 +62,21 @@ const Plan = ({calories}) => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TouchableOpacity
-              style={tw`p-5 bg-gray-200 h-50 bg-${item.background} rounded-6 w-35 m-2`} onPress={()=> navigation.navigate(item.screen)}
+              style={tw`p-5 bg-gray-200 h-50 bg-${
+                item.background
+              } rounded-6 w-35 m-2 ${
+                item.id % 2 !== 0
+                  ? "bg-opacity-50 backdrop-filter backdrop-blur-md"
+                  : ""
+              }`}
+              onPress={() => navigation.navigate(item.screen)}
             >
-              <View style={tw`h-full justify-between items-start`}>
-                <Icon
-                  style={tw`p-2`}
-                  name={item.icon}
-                  color={item.color}
-                  type={item.type}
-                />
+              <View style={tw`items-start justify-between h-full`}>
+                <Text style={tw`text-3xl`}>{item.icon}</Text>
                 <View>
-                  <Text style={tw`mt-2 text-lg font-semibold text-${item.color}`}>
+                  <Text
+                    style={tw`mt-2 text-lg font-semibold text-${item.color}`}
+                  >
                     {item.title}
                   </Text>
                   <Text style={tw`text-${item.color}`}>{item.description}</Text>

@@ -1,44 +1,75 @@
-import { SafeAreaView, View, Image } from "react-native";
-import React from "react";
+import { SafeAreaView, View, Image, Text, Pressable } from "react-native";
+import React, { useState, useEffect } from "react";
 import tw from "twrnc";
-import avatar from "../assets/avatar.jpg";
-import { Icon } from "@rneui/themed";
-import Location from './Location';
-import { useNavigation } from '@react-navigation/native';
-import { DrawerActions } from '@react-navigation/native';
+import avatar from "../assets/logo.png";
+import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
+const Navbar = () => {
+  const navigation = useNavigation();
+  const { user } = useSelector((state) => state.user);
+  const [parsedUser, setParsedUser] = useState(null);
 
+  useEffect(() => {
+    const parseUser = async () => {
+      if (user && typeof user === "string") {
+        try {
+          const parsed = JSON.parse(user);
+          setParsedUser(parsed);
+        } catch (error) {
+          console.error("Error parsing user data:", error);
+          setParsedUser(null);
+        }
+      } else {
+        setParsedUser(user);
+      }
+    };
 
+    if (user) {
+      parseUser();
+    }
+  }, [user]);
 
-const Navbar = ({route}) => {
-    const navigation = useNavigation();
-
-
-  const handleGoBack = () => {
-    navigation.goBack();
+  const capitalizeFirstLetter = (string) => {
+    if (typeof string === "string" && string.length > 0) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+    return "";
   };
 
-  const handleOpenDrawer = () => {
-    navigation.dispatch(DrawerActions.openDrawer())
-  };
-  
+  const name = parsedUser ? capitalizeFirstLetter(parsedUser.displayName) : "";
+  console.log(parsedUser);
 
   return (
-    <SafeAreaView >
-      <View style={tw`p-3 flex-row items-center justify-around`}>
-        { route == 'HomeScreen' ?
-        <Icon
-        name="bars"
-        onPress={handleOpenDrawer}
-        type="font-awesome"/>  :  
-        <Icon
-        name="arrow-left"
-        type="font-awesome"
-        onPress={handleGoBack}
-         /> 
-        }
-        <Location/>
-         <Image style={tw`rounded-full w-15 h-15`} source={avatar} />
+    <SafeAreaView>
+      <View style={tw`flex-row items-center px-5 mb-2`}>
+        <View style={tw`flex-row items-center`}>
+          {parsedUser && (
+            <Pressable onPress={() => navigation.navigate("ProfileScreen")}>
+              <Image
+                style={tw`rounded-full w-15 h-15`}
+                source={{ uri: user.picture || parsedUser.picture }}
+                defaultSource={avatar}
+              />
+            </Pressable>
+          )}
+          <View style={tw`text-left px-5`}>
+            {parsedUser && (
+              <>
+                <Text style={tw`text-sm text-gray-500 ml-1`}>
+                  WELCOME BACK,
+                </Text>
+                <Text style={tw`text-2xl text-white`}>
+                  {" "}
+                  {name ||
+                    user.given_name ||
+                    parsedUser.given_name.toUpperCase()}{" "}
+                  💪🏼{" "}
+                </Text>
+              </>
+            )}
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );

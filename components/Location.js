@@ -4,8 +4,6 @@ import * as Location from "expo-location";
 import { Icon } from "@rneui/themed";
 import tw from "twrnc";
 
-
-
 const Locations = () => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -19,7 +17,6 @@ const Locations = () => {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      // setLocation(location);
       const address = await Location.reverseGeocodeAsync(location.coords);
       setLocation(address);
     })();
